@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Centro de Apps – Convención 2025</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif; margin:24px; background:#f7f8fb;}
+    h1{margin-bottom:8px}
+    p.muted{color:#666;margin-top:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
+    .card{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+    .card h3{margin:0 0 8px}
+    .btns{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{padding:10px 12px;border:1px solid #ccc;border-radius:10px;background:#fff;cursor:pointer}
+    .btn.primary{background:#111;color:#fff;border-color:#111}
+    .small{font-size:.9em;color:#666;margin-top:6px}
+    .footer{margin-top:20px;color:#666;font-size:.9em}
+    dialog{border:none;border-radius:12px;padding:0;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+    .modal{padding:16px 16px 0}
+    .modal h4{margin:0 0 12px}
+    .modal iframe{width:100%;border:0}
+    .modal .actions{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px 16px}
+  </style>
+</head>
+<body>
+  <h1>Centro de Apps | Fundación Marta y María</h1>
+  <p class="muted">Acceso rápido a Inscripción, Registro de Ingreso (día del evento) y Tablero de control.</p>
+
+  <div class="grid">
+    <!-- Inscripción -->
+    <div class="card">
+      <h3>Inscripción de Participantes</h3>
+      <p>Formulario para registro y envío de comprobante.</p>
+      <div class="btns">
+        <a class="btn primary" href="/inscripcion" target="_self">Abrir</a>
+        <button class="btn" onclick="copyLink('/inscripcion')">Copiar enlace</button>
+        <button class="btn" onclick="openQR('/inscripcion')">QR</button>
+      </div>
+      <div class="small">Ruta: <code>/inscripcion</code></div>
+    </div>
+
+    <!-- Registro día del evento -->
+    <div class="card">
+      <h3>Registro de Ingreso</h3>
+      <p>Escaneo/validación de ingreso el día de la convención.</p>
+      <div class="btns">
+        <a class="btn primary" href="/ingreso" target="_self">Abrir</a>
+        <button class="btn" onclick="copyLink('/ingreso')">Copiar enlace</button>
+        <button class="btn" onclick="openQR('/ingreso')">QR</button>
+      </div>
+      <div class="small">Ruta: <code>/ingreso</code></div>
+    </div>
+
+    <!-- Tablero -->
+    <div class="card">
+      <h3>Tablero de Control</h3>
+      <p>Conteos en tiempo real: pagos e ingresos.</p>
+      <div class="btns">
+        <a class="btn primary" href="/tablero" target="_self">Abrir</a>
+        <button class="btn" onclick="copyLink('/tablero')">Copiar enlace</button>
+        <button class="btn" onclick="openQR('/tablero')">QR</button>
+      </div>
+      <div class="small">Ruta: <code>/tablero</code></div>
+    </div>
+  </div>
+
+  <p class="footer">¿Necesitas restringir “Ingreso” y “Tablero”? En Netlify puedes proteger rutas con contraseña o usar Identity + roles.</p>
+
+  <dialog id="qrDialog">
+    <div class="modal">
+      <h4>QR de acceso</h4>
+      <iframe id="qrFrame" height="260"></iframe>
+      <div class="actions">
+        <button class="btn" onclick="document.getElementById('qrDialog').close()">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    function absolute(href){ return location.origin + href; }
+    async function copyLink(path){
+      const url = absolute(path);
+      await navigator.clipboard.writeText(url);
+      alert('Enlace copiado:\n' + url);
+    }
+    function openQR(path){
+      const url = encodeURIComponent(absolute(path));
+      // Usamos la API de Google Chart para generar QR sin librerías externas
+      const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${url}&chld=L|0`;
+      const frame = document.getElementById('qrFrame');
+      frame.src = qrUrl;
+      document.getElementById('qrDialog').showModal();
+    }
+  </script>
+</body>
+</html>

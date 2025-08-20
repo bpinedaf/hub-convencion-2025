@@ -1,3 +1,8 @@
-/inscripcion/*  https://inscripcion-convencion-2025.netlify.app/:splat   200
-/ingreso/*      https://convencion2025-qr.netlify.app/:splat             200
-/tablero/*      https://tablero-convencion-2025.netlify.app/:splat       200
+/inscripcion      https://inscripcion-convencion-2025.netlify.app/         200
+/inscripcion/*    https://inscripcion-convencion-2025.netlify.app/:splat   200
+
+/ingreso          https://convencion2025-qr.netlify.app/                    200
+/ingreso/*        https://convencion2025-qr.netlify.app/:splat              200
+
+/tablero          https://tablero-convencion-2025.netlify.app/              200
+/tablero/*        https://tablero-convencion-2025.netlify.app/:splat        200

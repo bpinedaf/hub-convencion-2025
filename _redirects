@@ -10,3 +10,4 @@
 /tablero/          https://tablero-convencion-2025.netlify.app/              200
 /tablero/*         https://tablero-convencion-2025.netlify.app/:splat        200
 
+/test   /index.html   200

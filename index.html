@@ -78,23 +78,29 @@
   </dialog>
 
   <script>
-    function absolute(href){ return location.origin + href; }
-    async function copyLink(path){
-      const url = absolute(path);
-      await navigator.clipboard.writeText(url);
-      alert('Enlace copiado:\n' + url);
-    }
-    function openQR(path){
-      const url = encodeURIComponent(absolute(path));
-      // Usamos la API de Google Chart para generar QR sin librerías externas
-      const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${url}&chld=L|0`;
-      const frame = document.getElementById('qrFrame');
-      frame.src = qrUrl;
-      document.getElementById('qrDialog').showModal();
-    }
+    function absolute(path){ return location.origin + path; }
+  
+    document.addEventListener('click', async (e) => {
+      const copy = e.target.closest('.copy-btn');
+      const qr   = e.target.closest('.qr-btn');
+      if (copy) {
+        const path = copy.dataset.path || '/';
+        const url = absolute(path);
+        try { await navigator.clipboard.writeText(url); alert('Enlace copiado:\n' + url); }
+        catch { prompt('Copia el enlace:', url); }
+      }
+      if (qr) {
+        const path = qr.dataset.path || '/';
+        const url  = encodeURIComponent(absolute(path));
+        const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${url}&chld=L|0`;
+        document.getElementById('qrFrame').src = qrUrl;
+        document.getElementById('qrDialog').showModal();
+      }
+    });
   </script>
 </body>
 </html>
+
 
 
 
